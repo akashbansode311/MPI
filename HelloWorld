@@ -1,0 +1,21 @@
+#include<stdio.h>
+#include<mpi.h>
+int main(int argc,char** argv)
+{
+	int process_rank,size_of_process;
+	
+  //Initializes the MPI Environment
+  MPI_Init(&argc,&argv);
+	
+  //Returns the Number of Processes
+  MPI_Comm_size(MPI_COMM_WORLD,&size_of_process);
+  
+  //Return the Rank of proesses i.e process ID
+	MPI_Comm_rank(MPI_COMM_WORLD,&process_rank);
+	
+  printf("Hello World From Process %d of %d\n",process_rank,size_of_process);
+	
+  //End of MPI Region
+  MPI_Finalize();
+	return 0;
+}
