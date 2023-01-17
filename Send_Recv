@@ -1,0 +1,25 @@
+#include<stdio.h>
+#include<mpi.h>
+int main(int argc,char** argv)
+{
+	int process_rank,process_size;
+	int msg;
+	int rec;
+	MPI_Init(&argc,&argv);
+	MPI_Comm_rank(MPI_COMM_WORLD,&process_rank);
+	MPI_Comm_size(MPI_COMM_WORLD,&process_size);
+	if(process_rank == 4)         //Sending from Process 4 
+	{
+		msg=12;
+		MPI_Send(&msg,1,MPI_INT,3,1,MPI_COMM_WORLD);     //Destination is 3
+		printf("Message Send : %d\n",msg);
+	}
+	else if(process_rank == 3)      //Receiving Process 3
+	{
+		MPI_Recv(&rec,1,MPI_INT,4,1,MPI_COMM_WORLD,MPI_STATUS_IGNORE);    //Source is 4
+		printf("Message Received : %d\n",rec);
+	}
+	MPI_Finalize();
+	return 0;
+
+}
