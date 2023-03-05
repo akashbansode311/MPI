@@ -1,0 +1,24 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<mpi.h>
+int main(int argc,char** argv)
+{
+    MPI_Init(&argc,&argv);
+    // Get My Rank in the Communicator
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+    int Bcast_root = 0;   //Rank that Boadcasts the value of buffer
+    int buffer;
+    if(rank == Bcast_root)  //When the Rank is 0 then 
+    {
+        buffer = 12345;
+        printf("MPI Process %d I am the Broadcast Root,and send value %d\n",rank,buffer);   
+    }
+    MPI_Bcast(&buffer,1,MPI_INT,Bcast_root,MPI_COMM_WORLD);
+    if(rank != Bcast_root)
+    {
+        printf("MPI Process %d I am the Broadcast Receiver,and Received the value %d\n",rank,buffer);
+    }
+    MPI_Finalize();
+    return EXIT_SUCCESS;
+}
