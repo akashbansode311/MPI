@@ -13,3 +13,9 @@ int main(int argc,char** argv)
     MPI_Finalize();
     return 0;
 }
+
+//To Rum and Compile :
+//$ml openmpi-4.1.4-gcc-8.3.0-c7kvqyq
+//$mpicc Broadcast2.c
+//$mpirun -np 5 ./a.out  ===> Specify Number of Processes
+ 
