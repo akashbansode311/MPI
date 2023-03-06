@@ -1,0 +1,31 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<mpi.h>
+int main(int argc,char** argv)
+{
+    MPI_Init(&argc,&argv);
+    int size;
+    MPI_Comm_size(MPI_COMM_WORLD,&size);
+    if(size != 4)
+    {
+        printf("This Application is meant to be run with four processes \n");
+        MPI_Abort(MPI_COMM_WORLD,EXIT_FAILURE);
+    }
+    int root = 0;
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+    int value;
+    if(rank == root)
+    {
+        int a[4] = {100,200,300,400};
+        printf("Values to Scatter from Process %d are : %d, %d, %d, %d.\n",rank,a[0],a[1],a[2],a[3]);
+        MPI_Scatter(a,1,MPI_INT,&value,1,MPI_INT,root,MPI_COMM_WORLD);
+    }
+     else
+    {
+        MPI_Scatter(NULL,1,MPI_INT,&value,1,MPI_INT,root,MPI_COMM_WORLD);
+    }
+printf("Process %d Received Value = %d\n",rank,value);
+MPI_Finalize();
+return EXIT_SUCCESS;
+}
